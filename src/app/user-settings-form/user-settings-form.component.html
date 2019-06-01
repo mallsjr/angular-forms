@@ -1,6 +1,6 @@
 <div class="container">
   <h2>User Settings</h2>
-  <form #form="ngForm">
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)">
     <div class="form-group">
       <label for="name">Name</label>
       <input
@@ -9,7 +9,18 @@
         class="form-control"
         placeholder="Name"
         [(ngModel)]="userSettings.name"
+        required
+        (blur)="onBlur(nameField)"
+        #nameField="ngModel"
+        [class.field-error]="form.submitted && nameField.invalid"
       />
+      <div
+        [hidden]="!form.submitted || nameField.valid"
+        class="alert alert-danger"
+      >
+        Enter a name
+      </div>
+
       <!-- The [(ngModel)] is used for 2-way data binding. 
         Hooking up component ts with html-->
     </div>
@@ -99,5 +110,3 @@
     <button class="btn btn-primary">Send</button>
   </form>
 </div>
-
-{{ userSettings | json }}
